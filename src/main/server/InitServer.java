@@ -9,12 +9,16 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.ssl.SslContext;
 
+import java.util.List;
+
 public class InitServer extends ChannelInitializer<SocketChannel> {
 
     private SslContext sslCtx;
+    private ClientManager clientManager;
 
-    public InitServer(SslContext sslCtx) {
+    public InitServer(SslContext sslCtx, ClientManager clientManager) {
         this.sslCtx = sslCtx;
+        this.clientManager = clientManager;
     }
 
     @Override
@@ -26,6 +30,6 @@ public class InitServer extends ChannelInitializer<SocketChannel> {
         lpipe.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
         lpipe.addLast(new StringDecoder());
         lpipe.addLast(new StringEncoder());
-        lpipe.addLast(new ServerHandler());
+        lpipe.addLast(new ServerHandler(clientManager));
     }
 }

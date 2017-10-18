@@ -13,20 +13,21 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 public final class MainServer {
 
     static final int PORT = Integer.parseInt(System.getProperty("port", "6666"));
+    static ClientManager clientManager = new ClientManager();
 
     public static void main(String[] args) throws Exception {
         SelfSignedCertificate ssc = new SelfSignedCertificate();
         SslContext sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey())
                 .build();
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1) ;
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap serv = new ServerBootstrap();
             serv.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new InitServer(sslCtx));
+                    .childHandler(new InitServer(sslCtx, clientManager));
 
             serv.bind(PORT).sync().channel().closeFuture().sync();
         } finally {

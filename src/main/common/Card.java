@@ -1,4 +1,4 @@
-package server;
+package common;
 
 public class Card {
 
@@ -6,7 +6,7 @@ public class Card {
     public String number;
     public int    power;
 
-    Card(int suite, int number) {
+    public Card(int suite, int number) {
 
         switch (suite)
         {

@@ -9,11 +9,9 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import server.Card;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.List;
 
 public final class MainClient {
 
