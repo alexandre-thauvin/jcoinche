@@ -1,5 +1,7 @@
 package server;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,24 @@ public class ClientManager {
         }
         return null;
 
+    }
+    public Client getClientByChannel(ChannelHandlerContext ctx)
+    {
+        for (Client clt: lclient)
+        {
+            if (clt.ctx == ctx)
+                return clt;
+        }
+        return null;
+    }
+    public Client getClientByBegin()
+    {
+        for (Client clt: lclient)
+        {
+            if (clt.starter)
+                return clt;
+        }
+        return null;
     }
     public void add(Client client) {lclient.add(client);}
     public void remove(Client client) {lclient.remove(client);}

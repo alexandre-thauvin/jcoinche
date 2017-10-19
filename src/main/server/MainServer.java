@@ -14,8 +14,11 @@ public final class MainServer {
 
     static final int PORT = Integer.parseInt(System.getProperty("port", "6666"));
     static ClientManager clientManager = new ClientManager();
+    public static int x = 0;
+
 
     public static void main(String[] args) throws Exception {
+        x++;
         SelfSignedCertificate ssc = new SelfSignedCertificate();
         SslContext sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey())
                 .build();

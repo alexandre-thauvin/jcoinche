@@ -9,7 +9,6 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.ssl.SslContext;
 
-import java.util.List;
 
 public class InitServer extends ChannelInitializer<SocketChannel> {
 

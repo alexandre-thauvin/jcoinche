@@ -30,16 +30,16 @@ public class Card {
         switch (number)
         {
             case 0:
-                this.number = "sept";
+                this.number = "7";
                 break;
             case 1:
-                this.number = "huit";
+                this.number = "8";
                 break;
             case 2:
-                this.number = "neuf";
+                this.number = "9";
                 break;
             case 3:
-                this.number = "dix";
+                this.number = "10";
             case 4:
                 this.number = "valet";
                 break;
@@ -51,6 +51,7 @@ public class Card {
                 break;
             case 7:
                 this.number = "as";
+                break;
             default:
                 this.number = "";
                 break;

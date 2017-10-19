@@ -5,7 +5,6 @@ import common.Card;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Deck {
     Deck(){};
@@ -22,17 +21,14 @@ public class Deck {
     public void         distribution(List<Client> lclient)
     {
         int rand;
-        int x = 0;
-        Random mix = new Random();
+        int     n_rand;
         for (Client clt: lclient) {
             if (clt.inGame) {
                 for (int i = 0; i < 8 ; i++) {
-                    rand = mix.nextInt(32 - x);
-                    clt.hand.add(deck.get(rand));
-                    x++;
-
-                    clt.ctx.writeAndFlush("[DISTRIB]Player " + clt.id + ": " + deck.get(rand).number + " " + deck.get(rand).suite + '\n');
-                    deck.remove(rand);
+                    n_rand = (int)(Math.random() * deck.size());
+                    clt.hand.add(deck.get(n_rand));
+                    clt.ctx.writeAndFlush("[DISTRIBUTION]Player " + clt.id + ": " + deck.get(n_rand).number + " " + deck.get(n_rand).suite + '\n');
+                    deck.remove(n_rand);
                 }
             }
 

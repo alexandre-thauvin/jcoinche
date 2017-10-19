@@ -11,9 +11,12 @@ public class Client {
         this.ctx = ctx;
         this.inGame = inGame;
         this.id = id;
+        this.starter = false;
     }
     ChannelHandlerContext ctx;
     int id;
     List<Card> hand = new ArrayList<Card>();
     boolean inGame;
+    String pseudo;
+    boolean starter;
 }
