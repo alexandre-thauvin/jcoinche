@@ -55,13 +55,19 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         for (Channel c: channels) {
 
             if (c != ctx.channel() && !"hand".equals(msg.toLowerCase()))
-                print.PrintAtAll(msg, c, clientManager);
+                print.PrintAtAll(msg, c, clientManager, ctx);
+            else if (c == ctx.channel() && !"hand".equals(msg.toLowerCase()))
+                print.PrintToYou(msg, c, clientManager);
             if (msg.toLowerCase().contains("bet".toLowerCase()) && c != ctx.channel())
             {
 
                 gameManager.check_bet(msg.split("\\s+")[1], msg.split("\\s+")[2], clientManager);
-                if (gameManager.bet_number != 120 && gameManager.pass != 3 && bet != 4) {
+                if (gameManager.bet_number != 160 && gameManager.pass != 3 && bet != 4) {
                     gameManager.bet(clientManager);
+                }
+                else if (gameManager.bet_number == 160) {
+                    gameManager.bet(clientManager);
+                    gameManager.bet_turn = false;
                 }
                 if (gameManager.play_turn)
                     gameManager.d_run(clientManager);
