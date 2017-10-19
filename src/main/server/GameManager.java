@@ -6,7 +6,6 @@ public class GameManager {
     Deck    deck = new Deck();
     GameManager(){}
     String bet_suite;
-    int pass = 0;
     boolean bet_turn = false;
     boolean play_turn = false;
     boolean timer = true;
@@ -18,26 +17,30 @@ public class GameManager {
         deck.distribution(clientManager.lclient);
         print.ServerToAll("BET STARTS\n", clientManager);
         print.ServerToAll("Joueur " + (clientManager.lclient.get(0).id) + " must bet\n", clientManager);
+        print.ServerToOne("Usage: bet <mise> <suite>\n", clientManager.lclient.get(0));
         bet_turn = false;
     }
 
     public void d_run(ClientManager clientManager)
     {
-        print.ServerToAll("Joueur " + (clientManager.getClientByBegin().id) + " begin\n", clientManager);
+        print.ServerToAll("Player " + (clientManager.getClientByBegin().id) + " begin\n", clientManager);
     }
      public void bet(ClientManager clientManager)
     {
         if (timer) {
-                         if (ServerHandler.bet == 2)
-                            print.ServerToAll("Player " + (clientManager.lclient.get(1).id) + " must bet\n", clientManager);
+                         if (ServerHandler.bet == 2) {
+                             print.ServerToAll("Player " + (clientManager.lclient.get(1).id) + " must bet\n", clientManager);
+                             print.ServerToOne("Usage: bet <mise> <suite>\n", clientManager.lclient.get(1));
+
+                         }
                         else if (ServerHandler.bet == 3) {
                              print.ServerToAll("BET FINISHED\n", clientManager);
                              bet_turn = false;
                              play_turn = true;
                          }
-                    //print.ServerToAll("3Joueur " + clientManager.lclient.get(2).id + " must bet\n", clientManager);
+                    //print.ServerToAll("Player " + clientManager.lclient.get(2).id + " must bet\n", clientManager);
                         else if (ServerHandler.bet == 4)
-                            print.ServerToAll("Joueur " + clientManager.lclient.get(3).id + " must bet\n", clientManager);
+                            print.ServerToAll("Player " + clientManager.lclient.get(3).id + " must bet\n", clientManager);
                     timer = false;
                 }
     }
@@ -52,7 +55,6 @@ public class GameManager {
     {
         if (Integer.parseInt(number) > ServerHandler.bet_number && Integer.parseInt(number) <= 160 && Integer.parseInt(number) >= 80)
         {
-            System.out.print("new number : " + Integer.parseInt(number) + " // old number : "+  ServerHandler.bet_number + '\n');
             ServerHandler.bet_number = Integer.parseInt(number);
             bet_suite = suite;
             for (Client clt: clientManager.lclient)

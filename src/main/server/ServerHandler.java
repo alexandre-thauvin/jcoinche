@@ -18,8 +18,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     private Print           print = new Print();
     public static int bet = 1;
     public static int bet_number = 79;
-
-
+    public static int pass = 0;
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
@@ -32,7 +31,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                                 "Hello and have fun in Coinche server !\n");
                         if (clientManager.lclient.size() < 4) {
                             clientManager.add(new Client(MainServer.x, true, ctx));
-                            clientManager.lclient.get(MainServer.x - 1).ctx.writeAndFlush("&&You entered in a game\n");
+                            clientManager.lclient.get(MainServer.x - 1).ctx.writeAndFlush("You entered in a game\n");
                             ctx.writeAndFlush("May the Odds be ever in your favour\n");
                         } else {
                             clientManager.add(new Client(MainServer.x, false, ctx));
@@ -62,11 +61,14 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                 print.PrintToYou(msg, c, clientManager);
             if (msg.toLowerCase().contains("bet".toLowerCase()) && c != ctx.channel())
             {
-
-                if (gameManager.check_bet(msg.split("\\s+")[1], msg.split("\\s+")[2], clientManager)) {
-                    if (gameManager.pass != 3 && bet != 4) {
+                if (msg.toLowerCase().contains("pass")) {
+                    pass++;
+                    bet++;
+                    if (pass == clientManager.lclient.size() - 1)
                         gameManager.bet(clientManager);
-                    }
+                }
+                else if (gameManager.check_bet(msg.split("\\s+")[1], msg.split("\\s+")[2], clientManager)) {
+                        gameManager.bet(clientManager);
                 }
             }
             if (gameManager.play_turn)
