@@ -17,6 +17,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     private GameManager     gameManager = new GameManager();
     private Print           print = new Print();
     public static int bet = 1;
+    public static int bet_number = 79;
+
 
 
     @Override
@@ -61,18 +63,14 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             if (msg.toLowerCase().contains("bet".toLowerCase()) && c != ctx.channel())
             {
 
-                gameManager.check_bet(msg.split("\\s+")[1], msg.split("\\s+")[2], clientManager);
-                if (gameManager.bet_number != 160 && gameManager.pass != 3 && bet != 4) {
-                    gameManager.bet(clientManager);
+                if (gameManager.check_bet(msg.split("\\s+")[1], msg.split("\\s+")[2], clientManager)) {
+                    if (gameManager.pass != 3 && bet != 4) {
+                        gameManager.bet(clientManager);
+                    }
                 }
-                else if (gameManager.bet_number == 160) {
-                    gameManager.bet(clientManager);
-                    gameManager.bet_turn = false;
-                }
-                if (gameManager.play_turn)
-                    gameManager.d_run(clientManager);
-
             }
+            if (gameManager.play_turn)
+                gameManager.d_run(clientManager);
             else if (c != ctx.channel() && msg.toLowerCase().contentEquals("hand".toLowerCase())) {
                 for (Client clt: clientManager.lclient)
                 {

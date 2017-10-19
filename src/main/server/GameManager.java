@@ -6,7 +6,6 @@ public class GameManager {
     Deck    deck = new Deck();
     GameManager(){}
     String bet_suite;
-    int bet_number = 0;
     int pass = 0;
     boolean bet_turn = false;
     boolean play_turn = false;
@@ -28,7 +27,6 @@ public class GameManager {
     }
      public void bet(ClientManager clientManager)
     {
-        bet_turn = true;
         if (timer) {
                          if (ServerHandler.bet == 2)
                             print.ServerToAll("Player " + (clientManager.lclient.get(1).id) + " must bet\n", clientManager);
@@ -50,11 +48,12 @@ public class GameManager {
             print.ServerToOne(card.number + " " +  card.suite, clt);
         }
     }
-    public void check_bet(String number, String suite, ClientManager clientManager)
+    public boolean check_bet(String number, String suite, ClientManager clientManager)
     {
-        if (Integer.parseInt(number) > bet_number && Integer.parseInt(number) <= 160)
+        if (Integer.parseInt(number) > ServerHandler.bet_number && Integer.parseInt(number) <= 160 && Integer.parseInt(number) >= 80)
         {
-            bet_number = Integer.parseInt(number);
+            System.out.print("new number : " + Integer.parseInt(number) + " // old number : "+  ServerHandler.bet_number + '\n');
+            ServerHandler.bet_number = Integer.parseInt(number);
             bet_suite = suite;
             for (Client clt: clientManager.lclient)
             {
@@ -65,7 +64,10 @@ public class GameManager {
             ServerHandler.bet++;
             timer = true;
         }
-        else
-            print.ServerToOne("The bet must be between " + bet_number + " and 160\n" , clientManager.lclient.get(ServerHandler.bet - 2));
+        else {
+            print.ServerToOne("The bet must be between " + ServerHandler.bet_number + " and 160\n", clientManager.lclient.get(ServerHandler.bet - 1));
+            return false;
+        }
+        return true;
     }
 }
