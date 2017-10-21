@@ -12,11 +12,11 @@ import io.netty.handler.ssl.SslContext;
 
 public class InitServer extends ChannelInitializer<SocketChannel> {
 
-    private SslContext sslCtx;
+    private SslContext ctx;
     private ClientManager clientManager;
 
-    public InitServer(SslContext sslCtx, ClientManager clientManager) {
-        this.sslCtx = sslCtx;
+    public InitServer(SslContext ctx, ClientManager clientManager) {
+        this.ctx = ctx;
         this.clientManager = clientManager;
     }
 
@@ -24,7 +24,7 @@ public class InitServer extends ChannelInitializer<SocketChannel> {
     public void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline lpipe = ch.pipeline();
 
-        lpipe.addLast(sslCtx.newHandler(ch.alloc()));
+        lpipe.addLast(ctx.newHandler(ch.alloc()));
 
         lpipe.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
         lpipe.addLast(new StringDecoder());

@@ -2,25 +2,26 @@ package server;
 
 public class Card {
 
-    String suite;
-    String number;
+    String  suite;
+    String  number;
+    int     power;
 
     public Card(int suite, int number) {
 
         switch (suite)
         {
             case 0:
-                this.suite = "pic";
+                this.suite = "Spadet";
 
                 break;
             case 1:
-                this.suite = "coeur";
+                this.suite = "Heart";
                     break;
             case 2:
-                this.suite = "carreau";
+                this.suite = "Diamond";
                     break;
             case 3:
-                this.suite = "trefle";
+                this.suite = "Club";
                     break;
             default:
                 this.suite = "";
@@ -41,16 +42,16 @@ public class Card {
             case 3:
                 this.number = "10";
             case 4:
-                this.number = "valet";
+                this.number = "Jack";
                 break;
             case 5:
-                this.number = "dame";
+                this.number = "Queen";
                 break;
             case 6:
-                this.number = "roi";
+                this.number = "King";
                 break;
             case 7:
-                this.number = "as";
+                this.number = "Ace";
                 break;
             default:
                 this.number = "";

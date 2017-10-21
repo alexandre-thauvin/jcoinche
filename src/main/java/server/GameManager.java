@@ -6,7 +6,7 @@ public class GameManager {
     private String bet_suite;
     private boolean bet_turn = false;
     boolean play_turn = false;
-    private boolean timer = true;
+    boolean timer = true;
     private Print   print = new Print();
     public void f_run(ClientManager clientManager)
     {

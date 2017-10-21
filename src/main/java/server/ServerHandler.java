@@ -11,7 +11,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 public class ServerHandler extends SimpleChannelInboundHandler<String> {
-    private ClientManager clientManager;
+    static ClientManager clientManager;
     public ServerHandler(ClientManager clientManager) {this.clientManager = clientManager;}
     static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private GameManager     gameManager = new GameManager();
@@ -82,7 +82,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             }
             else if (msg.toLowerCase().contains("bet".toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx != ctx.channel())
                 print.ServerToOne("It's not your turn\n", clientManager.getClientByChannel(ctx.channel()));
-            if (gameManager.play_turn) {
+            else if (gameManager.play_turn) {
                 changeIndexPlayer(clientManager.getClientByBegin().id);
                 for (Client clt: clientManager.lclient)
                 {

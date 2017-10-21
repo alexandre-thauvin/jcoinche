@@ -12,14 +12,22 @@ public class Client {
     List<Card> hand = new ArrayList<Card>();
     boolean inGame;
     boolean starter;
-    int     score;
+    int     scoreTurn;
+    int     scoreParty;
+    int     team;
+    boolean winTurn = false;
+    boolean winParty = false;
 
     Client (int id, boolean inGame, Channel ctx) {
         this.ctx = ctx;
         this.inGame = inGame;
         this.id = id;
+        if (this.id == 1 || this.id == 3)
+            team = 1;
+        else
+            team = 2;
         this.starter = false;
-        this.score = 0;
+        this.scoreTurn = 0;
     }
 
 }

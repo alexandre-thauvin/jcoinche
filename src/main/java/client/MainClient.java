@@ -19,7 +19,7 @@ public final class MainClient {
     static final int PORT = Integer.parseInt(System.getProperty("port", "6666"));
 
     public static void main(String[] args) throws Exception {
-        final SslContext sslCtx = SslContextBuilder.forClient()
+        final SslContext ctx = SslContextBuilder.forClient()
                 .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
 
         EventLoopGroup group = new NioEventLoopGroup();
@@ -27,7 +27,7 @@ public final class MainClient {
             Bootstrap b = new Bootstrap();
             b.group(group)
                     .channel(NioSocketChannel.class)
-                    .handler(new InitClient(sslCtx));
+                    .handler(new InitClient(ctx));
 
             Channel ch = b.connect(HOST, PORT).sync().channel();
             ChannelFuture lastWriteFuture = null;

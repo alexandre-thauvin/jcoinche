@@ -39,5 +39,4 @@ public class ClientManager {
     }
     public void add(Client client) {lclient.add(client);}
     public void remove(Client client) {lclient.remove(client);}
-    public void copy(Client newClient, Client oldClient) {newClient = oldClient;}
 }

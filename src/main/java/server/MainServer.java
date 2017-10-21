@@ -20,7 +20,7 @@ public final class MainServer {
     public static void main(String[] args) throws Exception {
         x++;
         SelfSignedCertificate ssc = new SelfSignedCertificate();
-        SslContext sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey())
+        SslContext ctx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey())
                 .build();
 
         EventLoopGroup bossGroup = new NioEventLoopGroup(1) ;
@@ -30,7 +30,7 @@ public final class MainServer {
             serv.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new InitServer(sslCtx, clientManager));
+                    .childHandler(new InitServer(ctx, clientManager));
 
             serv.bind(PORT).sync().channel().closeFuture().sync();
         } finally {
