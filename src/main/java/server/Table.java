@@ -14,6 +14,6 @@ public class Table {
             print.ServerToOne(card.number + " " + card.suite, client);
         }
     }
-    public void add(Card card) {this.table.add(card);}
+    public void add_card(Card card) {this.table.add(card);}
     public void clean_table(){this.table.clear();}
 }

@@ -1,6 +1,5 @@
 package server;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,7 +10,7 @@ public class TableTest {
         Card card = new Card(0, 0);
         Table table = new Table();
 
-        table.add(card);
+        table.add_card(card);
         assertEquals(card, table.table.get(0));
     }
 
@@ -20,7 +19,7 @@ public class TableTest {
         Card card = new Card(0, 0);
         Table table = new Table();
 
-        table.add(card);
+        table.add_card(card);
         table.clean_table();
         assertEquals(0, table.table.size());
     }

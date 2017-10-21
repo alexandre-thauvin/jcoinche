@@ -16,10 +16,18 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private GameManager     gameManager = new GameManager();
     private Print           print = new Print();
-    public static int bet = 1;
-    public static int bet_number = 79;
-    public static int pass = 0;
-    public static int indexPlayer = 0;
+    static int bet = 1;
+    static int bet_number = 79;
+    static int pass = 0;
+    static int indexPlayer = 0;
+
+    public static int getBet() {
+        return bet;
+    }
+
+    public static int getBet_number() {
+        return bet_number;
+    }
 
     public void changeIndexPlayer(int index)
     {

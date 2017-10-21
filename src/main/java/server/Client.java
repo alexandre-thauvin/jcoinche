@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
+    Channel ctx;
+    int id;
+    List<Card> hand = new ArrayList<Card>();
+    boolean inGame;
+    boolean starter;
+    int     score;
+
     Client (int id, boolean inGame, Channel ctx) {
         this.ctx = ctx;
         this.inGame = inGame;
@@ -14,10 +21,5 @@ public class Client {
         this.starter = false;
         this.score = 0;
     }
-    Channel ctx;
-    int id;
-    List<Card> hand = new ArrayList<Card>();
-    boolean inGame;
-    boolean starter;
-    int     score;
+
 }

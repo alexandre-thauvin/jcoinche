@@ -2,10 +2,8 @@ package server;
 
 public class Card {
 
-    public String suite;
-    public String number;
-    public int    power;
-    public Table table = new Table();
+    String suite;
+    String number;
 
     public Card(int suite, int number) {
 

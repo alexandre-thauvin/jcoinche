@@ -3,11 +3,11 @@ package server;
 public class GameManager {
     Deck    deck = new Deck();
     GameManager(){}
-    String bet_suite;
-    boolean bet_turn = false;
+    private String bet_suite;
+    private boolean bet_turn = false;
     boolean play_turn = false;
-    boolean timer = true;
-    Print   print = new Print();
+    private boolean timer = true;
+    private Print   print = new Print();
     public void f_run(ClientManager clientManager)
     {
         clientManager.lclient.get(0).starter = true;
@@ -27,18 +27,18 @@ public class GameManager {
      public void bet(ClientManager clientManager)
     {
         if (timer) {
-                         if (ServerHandler.bet == 2) {
+                         if (ServerHandler.getBet() == 2) {
                              print.ServerToAll("Player " + (clientManager.lclient.get(1).id) + " must bet\n", clientManager);
                              print.ServerToOne("Usage: bet <value> <suite>\n", clientManager.lclient.get(1));
 
                          }
-                        else if (ServerHandler.bet == 3) {
+                        else if (ServerHandler.getBet() == 3) {
                              print.ServerToAll("BET FINISHED\n", clientManager);
                              bet_turn = false;
                              play_turn = true;
                          }
                     //print.ServerToAll("Player " + clientManager.lclient.get(2).id + " must bet\n", clientManager);
-                        else if (ServerHandler.bet == 4)
+                        else if (ServerHandler.getBet() == 4)
                             print.ServerToAll("Player " + clientManager.lclient.get(3).id + " must bet\n", clientManager);
                     timer = false;
                 }
@@ -61,7 +61,7 @@ public class GameManager {
                 if (clt.starter)
                     clt.starter = false;
             }
-            clientManager.lclient.get(ServerHandler.bet - 1).starter = true;
+            clientManager.lclient.get(ServerHandler.getBet() - 1).starter = true;
             ServerHandler.bet++;
             ServerHandler.indexPlayer++;
             timer = true;
