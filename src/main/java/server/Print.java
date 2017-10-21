@@ -6,11 +6,11 @@ import io.netty.channel.group.ChannelGroup;
 
 public class Print {
     public Print() {}
-    public void PrintAtAll(String msg, ChannelGroup channels, ClientManager clientManager, ChannelHandlerContext ctx)
+    public void PrintAtAll(String msg, ClientManager clientManager, ChannelHandlerContext ctx)
     {
-        for (Channel c: channels) {
-          if (c != ctx.channel())
-                c.writeAndFlush("Player " + clientManager.getClientByChannel(ctx).id + ": " + msg + '\n');
+        for (Client clt: clientManager.lclient) {
+          if (clt.ctx != ctx.channel())
+                clt.ctx.writeAndFlush("Player " + clientManager.getClientByChannel(ctx.channel()).id + ": " + msg + '\n');
         }
 
     }
@@ -24,10 +24,5 @@ public class Print {
     public void ServerToOne(String msg, Client clt)
     {
         clt.ctx.writeAndFlush("[SERVER]: " + msg + '\n');
-    }
-
-    public void  PrintToYou(String msg, ChannelHandlerContext ctx, ClientManager clientManager)
-    {
-        ctx.writeAndFlush("You: " + msg + '\n');
     }
 }

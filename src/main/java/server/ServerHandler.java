@@ -36,11 +36,11 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                         ctx.writeAndFlush(
                                 "Hello and have fun in Coinche server !\n");
                         if (clientManager.lclient.size() < 4) {
-                            clientManager.add(new Client(MainServer.x, true, ctx));
+                            clientManager.add(new Client(MainServer.x, true, ctx.channel()));
                             clientManager.lclient.get(MainServer.x - 1).ctx.writeAndFlush("You entered in a game\n");
                             ctx.writeAndFlush("May the Odds be ever in your favour\n");
                         } else {
-                            clientManager.add(new Client(MainServer.x, false, ctx));
+                            clientManager.add(new Client(MainServer.x, false, ctx.channel()));
                             ctx.writeAndFlush("Waiting, the game is full\n");
                         }
                         MainServer.x++;
@@ -59,7 +59,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-            if (msg.toLowerCase().contains("bet".toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx.channel() == ctx.channel())
+            if (msg.toLowerCase().contains("bet".toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx == ctx.channel())
             {
                     if (msg.toLowerCase().contains("pass")) {
                         pass++;
@@ -70,10 +70,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                     } else if (gameManager.check_bet(msg.split("\\s+")[1], msg.split("\\s+")[2], clientManager)) {
                         gameManager.bet(clientManager);
                 }
-                print.PrintAtAll(msg, channels, clientManager, ctx);
+                print.PrintAtAll(msg, clientManager, ctx);
             }
-            else if (msg.toLowerCase().contains("bet".toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx.channel() != ctx.channel())
-                print.ServerToOne("It's not your turn\n", clientManager.getClientByChannel(ctx));
+            else if (msg.toLowerCase().contains("bet".toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx != ctx.channel())
+                print.ServerToOne("It's not your turn\n", clientManager.getClientByChannel(ctx.channel()));
             if (gameManager.play_turn) {
                 changeIndexPlayer(clientManager.getClientByBegin().id);
                 for (Client clt: clientManager.lclient)
@@ -94,11 +94,15 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             }
             else if (clientManager.lclient.get(indexPlayer).ctx == ctx.channel() && "ping".equals(msg.toLowerCase()))
                 clientManager.lclient.get(indexPlayer).ctx.writeAndFlush("Pong\n");
-            else if ("exit".equals(msg.toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx == ctx.channel()) {
+            else if ("exit".equals(msg.toLowerCase())) {
 
-                clientManager.lclient.get(indexPlayer).ctx.writeAndFlush("Don't be made bro\n");
+                ctx.writeAndFlush("Don't be made bro\n");
+                clientManager.lclient.remove(clientManager.getClientByChannel(ctx.channel()));
+                print.ServerToAll("Looking for a new player\n", clientManager);
                 ctx.close();
         }
+        else
+            print.PrintAtAll(msg, clientManager, ctx);
     }
 
     @Override

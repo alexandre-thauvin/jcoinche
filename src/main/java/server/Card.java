@@ -5,6 +5,7 @@ public class Card {
     public String suite;
     public String number;
     public int    power;
+    public Table table = new Table();
 
     public Card(int suite, int number) {
 
@@ -12,19 +13,20 @@ public class Card {
         {
             case 0:
                 this.suite = "pic";
+
                 break;
             case 1:
                 this.suite = "coeur";
-                break;
+                    break;
             case 2:
                 this.suite = "carreau";
-                break;
+                    break;
             case 3:
                 this.suite = "trefle";
-                break;
+                    break;
             default:
                 this.suite = "";
-                break;
+                    break;
 
         }
         switch (number)

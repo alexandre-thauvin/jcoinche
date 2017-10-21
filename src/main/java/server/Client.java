@@ -1,21 +1,23 @@
 package server;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
-    Client (int id, boolean inGame, ChannelHandlerContext ctx) {
+    Client (int id, boolean inGame, Channel ctx) {
         this.ctx = ctx;
         this.inGame = inGame;
         this.id = id;
         this.starter = false;
+        this.score = 0;
     }
-    ChannelHandlerContext ctx;
+    Channel ctx;
     int id;
     List<Card> hand = new ArrayList<Card>();
     boolean inGame;
-    String pseudo;
     boolean starter;
+    int     score;
 }

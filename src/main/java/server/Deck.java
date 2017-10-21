@@ -18,7 +18,7 @@ public class Deck {
     }
     public void         distribution(List<Client> lclient)
     {
-        int rand;
+        int     rand;
         int     n_rand;
         for (Client clt: lclient) {
             if (clt.inGame) {
