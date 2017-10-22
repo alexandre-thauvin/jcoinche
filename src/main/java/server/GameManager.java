@@ -1,5 +1,6 @@
 package server;
 
+
 public class GameManager {
     Deck    deck = new Deck();
     GameManager(){}
@@ -64,6 +65,7 @@ public class GameManager {
             clientManager.lclient.get(ServerHandler.getBet() - 1).starter = true;
             ServerHandler.bet++;
             ServerHandler.indexPlayer++;
+            ServerHandler.table.atout = suite;
             timer = true;
         }
         else {

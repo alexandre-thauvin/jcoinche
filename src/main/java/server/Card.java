@@ -11,7 +11,7 @@ public class Card {
         switch (suite)
         {
             case 0:
-                this.suite = "Spadet";
+                this.suite = "Spade";
 
                 break;
             case 1:

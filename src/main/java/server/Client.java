@@ -12,11 +12,10 @@ public class Client {
     List<Card> hand = new ArrayList<Card>();
     boolean inGame;
     boolean starter;
-    int     scoreTurn;
-    int     scoreParty;
+    int     scoreTurn = 0;
+    int     scoreParty = 0;
     int     team;
     boolean winTurn = false;
-    boolean winParty = false;
 
     Client (int id, boolean inGame, Channel ctx) {
         this.ctx = ctx;
