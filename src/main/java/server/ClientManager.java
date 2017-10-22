@@ -50,6 +50,13 @@ public class ClientManager {
         for (Client clt: lclient)
             clt.winFolds = false;
     }
+
+    public void resetContrat()
+    {
+        for (Client clt: lclient)
+            clt.contrat = false;
+    }
+
     public void add(Client client) {lclient.add(client);}
     public void remove(Client client) {lclient.remove(client);}
 }

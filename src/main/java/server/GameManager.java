@@ -4,10 +4,9 @@ package server;
 public class GameManager {
     Deck    deck = new Deck();
     GameManager(){}
-    private String bet_suite;
     boolean timer = true;
     private Print   print = new Print();
-    public void f_run(ClientManager clientManager)
+    public void fRun(ClientManager clientManager)
     {
         clientManager.lclient.get(0).starter = true;
         deck.create();
@@ -35,10 +34,10 @@ public class GameManager {
                 print.ServerToAll("Player " + (clientManager.lclient.get(0).id) + " begin\n", clientManager);
                 ServerHandler.indexPlayer = 0;
             }
-                    timer = false;
-                }
+            timer = false;
+        }
     }
-    public void check_hand(Client clt)
+    public void checkHand(Client clt)
     {
         print.ServerToOne("YOUR HAND\n", clt);
         for (Card card: clt.hand)
@@ -46,7 +45,7 @@ public class GameManager {
             print.ServerToOne(card.number + " " +  card.suite + '\n', clt);
         }
     }
-    public boolean check_bet(String number, String suite, ClientManager clientManager)
+    public boolean checkBet(String number, String suite, ClientManager clientManager)
     {
         if (Integer.parseInt(number) > ServerHandler.bet_number && Integer.parseInt(number) <= 160 && Integer.parseInt(number) >= 80)
         {

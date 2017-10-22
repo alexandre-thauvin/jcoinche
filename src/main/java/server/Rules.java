@@ -24,9 +24,6 @@ public class Rules {
                             ServerHandler.indexPlayer = 0;
                         else
                             ServerHandler.indexPlayer++;
-                        print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
-                        print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
-
                         return true;
                     }
                 }
@@ -40,8 +37,6 @@ public class Rules {
                     ServerHandler.indexPlayer++;
                     if (ServerHandler.indexPlayer - 1 == 3)
                         ServerHandler.indexPlayer = 0;
-                    print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
-                    print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
                     return true;
                 } else {
                     print.ServerToOne("You must put your atout card\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
@@ -108,10 +103,12 @@ public class Rules {
                 clt.scoreTurn += score;
         }
         ServerHandler.clientManager.resetWinFolds();
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(0).scoreTurn + " turn points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(1).id +  ": " + ServerHandler.clientManager.lclient.get(1).scoreTurn + " turn points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(2).id +  ": " + ServerHandler.clientManager.lclient.get(2).scoreTurn + " turn points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(3).id +  ": " + ServerHandler.clientManager.lclient.get(3).scoreTurn + " turn points", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(0).scoreTurn + " turn points\n", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(1).id +  ": " + ServerHandler.clientManager.lclient.get(1).scoreTurn + " turn points\n", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(2).id +  ": " + ServerHandler.clientManager.lclient.get(2).scoreTurn + " turn points\n", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(3).id +  ": " + ServerHandler.clientManager.lclient.get(3).scoreTurn + " turn points\n", ServerHandler.clientManager);
+        print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
+
     }
 
     public void countScoreParty()
@@ -136,10 +133,10 @@ public class Rules {
         {
             clt.scoreTurn = 0;
         }
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(0).scoreParty + " party points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(1).id +  ": " + ServerHandler.clientManager.lclient.get(1).scoreParty + " party points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(2).id +  ": " + ServerHandler.clientManager.lclient.get(2).scoreParty + " party points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(3).id +  ": " + ServerHandler.clientManager.lclient.get(3).scoreParty + " party points", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(0).scoreParty + " party points\n", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(1).id +  ": " + ServerHandler.clientManager.lclient.get(1).scoreParty + " party points\n", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(2).id +  ": " + ServerHandler.clientManager.lclient.get(2).scoreParty + " party points\n", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(3).id +  ": " + ServerHandler.clientManager.lclient.get(3).scoreParty + " party points\n", ServerHandler.clientManager);
     }
 
     public boolean checkWinParty()
@@ -165,7 +162,7 @@ public class Rules {
                 if (clt.team == ServerHandler.clientManager.lclient.get(i).team)
                     clt.winFolds = true;
             }
-            print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(i).id + " win the fold\n", ServerHandler.clientManager);
+            print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(i).id + " win the fold\n\n", ServerHandler.clientManager);
             ServerHandler.indexPlayer = i;
             countScoreFolds(ServerHandler.table.table);
             ServerHandler.clientManager.resetStarter();
@@ -184,7 +181,7 @@ public class Rules {
                 if (card.number.equals(msg.split("\\s+")[1]) && card.suite.equals(msg.split("\\s+")[2]))
                     return card;
             }
-            print.ServerToOne("You don't have the card", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+            print.ServerToOne("You don't have the card\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
 
         }
             else
