@@ -15,10 +15,22 @@ import java.io.InputStreamReader;
 
 public final class MainClient {
 
-    static final String HOST = System.getProperty("host", "127.0.0.1");
-    static final int PORT = Integer.parseInt(System.getProperty("port", "6666"));
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        MainClient mc = new MainClient();
+        try {
+            mc.run(args);
+        }
+        catch (Exception e)
+        {
+         System.out.print("Usage: <ip> <port>\n");
+        }
+    }
+    public void run(String[] args) throws Exception
+    {
+        final String HOST = System.getProperty("host", args[0]);
+        final int PORT = Integer.parseInt(System.getProperty("port", args[1]));
+
         final SslContext ctx = SslContextBuilder.forClient()
                 .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
 
@@ -27,7 +39,7 @@ public final class MainClient {
             Bootstrap b = new Bootstrap();
             b.group(group)
                     .channel(NioSocketChannel.class)
-                    .handler(new InitClient(ctx));
+                    .handler(new InitClient(ctx, HOST, PORT));
 
             Channel ch = b.connect(HOST, PORT).sync().channel();
             ChannelFuture lastWriteFuture = null;

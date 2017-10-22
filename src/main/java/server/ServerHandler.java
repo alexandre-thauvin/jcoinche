@@ -10,6 +10,8 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.awt.event.ComponentListener;
+
 public class ServerHandler extends SimpleChannelInboundHandler<String> {
     static ClientManager clientManager;
     public ServerHandler(ClientManager clientManager) {this.clientManager = clientManager;}
@@ -22,6 +24,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     static int pass = 0;
     static int indexPlayer = 0;
     static Rules rules = new Rules();
+    static Deck deck = new Deck();
 
     public static int getBet() {
         return bet;
@@ -81,15 +84,20 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             {
                 if (!rules.checkWinParty()) {
                     if (rules.checkPut(msg)) {
-                        print.PrintAtAll(msg, clientManager, ctx);
+                        print.PrintAtAll('\n' + msg, clientManager, ctx);
                         if (rules.checkFolds())
                         {
-                            if (rules.checkEndTurn())
+                            if (rules.checkEndTurn()) {
                                 rules.countScoreParty();
+                                deck.create();
+                                deck.distribution(clientManager.lclient);
+                                print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
+                                print.ServerToOne("Usage: put <value> <suite>\n\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+                            }
                         }
                         else {
                             print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
-                            print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+                            print.ServerToOne("Usage: put <value> <suite>\n\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
                             gameManager.check_hand(clientManager.lclient.get(indexPlayer));
                         }
 
@@ -101,6 +109,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                 print.ServerToOne("It's not your turn\n", clientManager.getClientByChannel(ctx.channel()));
             else if (msg.toLowerCase().contentEquals("hand".toLowerCase())) {
                         gameManager.check_hand(clientManager.getClientByChannel(ctx.channel()));
+            }
+            else if (msg.toLowerCase().contentEquals("table".toLowerCase())) {
+                table.checkTable(clientManager.getClientByChannel(ctx.channel()));
             }
             else if (clientManager.lclient.get(indexPlayer).ctx == ctx.channel() && "ping".equals(msg.toLowerCase()))
                 clientManager.lclient.get(indexPlayer).ctx.writeAndFlush("Pong\n");

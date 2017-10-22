@@ -49,6 +49,7 @@
                   <descriptorRef>jar-with-dependencies</descriptorRef>
                 </descriptorRefs>
                 <finalName>jcoinche-server</finalName>
+                <appendAssemblyId>false</appendAssemblyId>
               </configuration>
               <phase>package</phase>
               <goals>
