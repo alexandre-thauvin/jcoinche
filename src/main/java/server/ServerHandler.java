@@ -22,6 +22,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     static int pass = 0;
     static int indexPlayer = 0;
     static Rules rules = new Rules();
+    static int turnNumber = 0;
 
     public static int getBet() {
         return bet;
@@ -51,9 +52,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                         }
                         MainServer.x++;
                         ctx.writeAndFlush("There are " + clientManager.lclient.size() + " in the server\n");
-                        ctx.writeAndFlush("You are in the team " + clientManager.getClientById(MainServer.x - 1));
+                        ctx.writeAndFlush("You are in the team " + clientManager.getClientById(MainServer.x - 1).team + '\n');
                         channels.add(ctx.channel());
-                        if (clientManager.lclient.size() == 2) {
+                        if (clientManager.lclient.size() == 4) {
                             print.ServerToAll("THE GAME STARTS\n", clientManager);
                             gameManager.f_run(clientManager);
                         }
@@ -70,9 +71,11 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                     if (msg.toLowerCase().contains("pass")) {
                         pass++;
                         bet++;
-                        indexPlayer++;
-                        if (pass == clientManager.lclient.size() - 1)
-                            gameManager.bet(clientManager);
+                        if (indexPlayer == 3)
+                            indexPlayer = 0;
+                        else
+                            indexPlayer++;
+                        gameManager.bet(clientManager);
                     } else if (gameManager.check_bet(msg.split("\\s+")[1], msg.split("\\s+")[2], clientManager)) {
                         gameManager.bet(clientManager);
                 }
@@ -80,34 +83,21 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             }
             else if (msg.toLowerCase().contains("bet".toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx != ctx.channel())
                 print.ServerToOne("It's not your turn\n", clientManager.getClientByChannel(ctx.channel()));
-            else if (gameManager.play_turn) {
-                changeIndexPlayer(clientManager.getClientByBegin().id);
-                for (Client clt: clientManager.lclient)
-                {
-                    if (clt.starter)
-                        indexPlayer = clt.id - 1;
-
-                }
-                gameManager.d_run(clientManager);
-                gameManager.play_turn = false;
-            }
             else if (msg.toLowerCase().contains("put".toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx == ctx.channel())
             {
-                if (rules.checkPut(msg))
-                    if (rules.checkFolds())
-                        if (rules.checkWinTurn())
-                            if (rules.checkWinParty())
-                                print.ServerToAll("Game finished\n", ServerHandler.clientManager);
+                if (!rules.checkWinParty()) {
+                    if (rules.checkPut(msg)) {
+                        if (rules.checkFolds())
+                            if (rules.checkEndTurn())
+                                rules.countScoreParty();
+                    }
+                }
 
             }
             else if (msg.toLowerCase().contains("put".toLowerCase()) && clientManager.lclient.get(indexPlayer).ctx != ctx.channel())
                 print.ServerToOne("It's not your turn\n", clientManager.getClientByChannel(ctx.channel()));
-            else if (clientManager.lclient.get(indexPlayer).ctx != ctx.channel() && msg.toLowerCase().contentEquals("hand".toLowerCase())) {
-                for (Client clt: clientManager.lclient)
-                {
-                    if (clt.ctx == ctx)
-                        gameManager.check_hand(clt);
-                }
+            else if (msg.toLowerCase().contentEquals("hand".toLowerCase())) {
+                        gameManager.check_hand(clientManager.getClientByChannel(ctx.channel()));
             }
             else if (clientManager.lclient.get(indexPlayer).ctx == ctx.channel() && "ping".equals(msg.toLowerCase()))
                 clientManager.lclient.get(indexPlayer).ctx.writeAndFlush("Pong\n");

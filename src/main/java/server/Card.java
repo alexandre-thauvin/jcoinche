@@ -5,23 +5,24 @@ public class Card {
     String  suite;
     String  number;
     int     power;
+    int     who;
 
     public Card(int suite, int number) {
 
         switch (suite)
         {
             case 0:
-                this.suite = "Spade";
+                this.suite = "spade";
 
                 break;
             case 1:
-                this.suite = "Heart";
+                this.suite = "heart";
                     break;
             case 2:
-                this.suite = "Diamond";
+                this.suite = "diamond";
                     break;
             case 3:
-                this.suite = "Club";
+                this.suite = "club";
                     break;
             default:
                 this.suite = "";
@@ -42,16 +43,16 @@ public class Card {
             case 3:
                 this.number = "10";
             case 4:
-                this.number = "Jack";
+                this.number = "jack";
                 break;
             case 5:
-                this.number = "Queen";
+                this.number = "queen";
                 break;
             case 6:
-                this.number = "King";
+                this.number = "king";
                 break;
             case 7:
-                this.number = "Ace";
+                this.number = "ace";
                 break;
             default:
                 this.number = "";

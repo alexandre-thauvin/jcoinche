@@ -37,6 +37,21 @@ public class ClientManager {
         }
         return null;
     }
+
+    public void resetStarter()
+    {
+        for (Client clt: lclient)
+        {
+            clt.starter = false;
+        }
+    }
+    public void resetWinFolds()
+    {
+        for (Client clt: lclient)
+        {
+            clt.winFolds = false;
+        }
+    }
     public void add(Client client) {lclient.add(client);}
     public void remove(Client client) {lclient.remove(client);}
 }

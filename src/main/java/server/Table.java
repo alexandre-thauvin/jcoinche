@@ -6,6 +6,7 @@ import java.util.List;
 public class Table {
     List<Card>  table = new ArrayList<Card>();
     String      atout;
+    int         contrat;
     public void check_table(List<Card> Table, Client client)
     {
         Print print = new Print();

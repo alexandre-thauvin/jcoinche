@@ -20,7 +20,6 @@ public class Print {
                 clt.ctx.writeAndFlush("[SERVER]: " + msg + '\n');
         }
     }
-
     public void ServerToOne(String msg, Client clt)
     {
         clt.ctx.writeAndFlush("[SERVER]: " + msg + '\n');

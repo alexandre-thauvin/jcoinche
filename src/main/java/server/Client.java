@@ -15,7 +15,8 @@ public class Client {
     int     scoreTurn = 0;
     int     scoreParty = 0;
     int     team;
-    boolean winTurn = false;
+    boolean winFolds = false;
+    boolean contrat = false;
 
     Client (int id, boolean inGame, Channel ctx) {
         this.ctx = ctx;
