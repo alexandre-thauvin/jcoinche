@@ -17,10 +17,6 @@ public class GameManager {
         print.ServerToOne("Usage: bet <mise> <suite>\n", clientManager.lclient.get(0));
     }
 
-    public void d_run(ClientManager clientManager)
-    {
-
-    }
      public void bet(ClientManager clientManager)
     {
         if (timer) {
@@ -36,7 +32,7 @@ public class GameManager {
 
             } else if (ServerHandler.bet == 5) {
                 print.ServerToAll("BET FINISHED\n", clientManager);
-                print.ServerToAll("Player " + (clientManager.getClientByBegin().id) + " begin\n", clientManager);
+                print.ServerToAll("Player " + (clientManager.lclient.get(0).id) + " begin\n", clientManager);
                 ServerHandler.indexPlayer = 0;
             }
                     timer = false;

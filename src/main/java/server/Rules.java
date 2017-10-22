@@ -8,61 +8,62 @@ public class Rules {
     }
     private Print print = new Print();
 
-    public boolean checkPut(String msg)
-    {
+    public boolean checkPut(String msg) {
         Card card = checkValidCard(msg);
         if (card != null) {
             if (checkPutSameSuite()) {
-                if (!card.suite.equals(ServerHandler.table.table.get(0).suite)) {
-                    print.ServerToOne("You must put the same suite card\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
-                    return false;
-                } else {
-                    card.who = ServerHandler.indexPlayer;
-                    ServerHandler.table.add_card(card);
-                    ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand.remove(card);
-                    ServerHandler.turnNumber++;
-                    if (ServerHandler.indexPlayer == 3)
-                        ServerHandler.indexPlayer = 0;
-                    else
-                        ServerHandler.indexPlayer++;
-                    print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
-                    print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
-
-                    return true;
-                }
-            }
-            else {
-                if (checkPutAtout()) {
-                    if (card.suite.equals(ServerHandler.table.atout)) {
+                if (ServerHandler.table.table.size() != 0) {
+                    if (!card.suite.equals(ServerHandler.table.table.get(0).suite)) {
+                        print.ServerToOne("You must put the same suite card\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+                        return false;
+                    } else {
                         card.who = ServerHandler.indexPlayer;
                         ServerHandler.table.add_card(card);
                         ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand.remove(card);
                         ServerHandler.turnNumber++;
-                        ServerHandler.indexPlayer++;
-                        if (ServerHandler.indexPlayer - 1 == 3)
+                        if (ServerHandler.indexPlayer == 3)
                             ServerHandler.indexPlayer = 0;
+                        else
+                            ServerHandler.indexPlayer++;
                         print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
                         print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+
                         return true;
-                    } else {
-                        print.ServerToOne("You must put your atout card\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
-                        return false;
                     }
                 }
             }
-            card.who = ServerHandler.indexPlayer;
-            ServerHandler.table.add_card(card);
-            ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand.remove(card);
-            ServerHandler.turnNumber++;
-            if (ServerHandler.indexPlayer == 3)
-                ServerHandler.indexPlayer = 0;
-            else
-                ServerHandler.indexPlayer++;
-            print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
-            print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
-            return true;
+        else {
+            if (checkPutAtout()) {
+                if (card.suite.equals(ServerHandler.table.atout)) {
+                    card.who = ServerHandler.indexPlayer;
+                    ServerHandler.table.add_card(card);
+                    ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand.remove(card);
+                    ServerHandler.turnNumber++;
+                    ServerHandler.indexPlayer++;
+                    if (ServerHandler.indexPlayer - 1 == 3)
+                        ServerHandler.indexPlayer = 0;
+                    print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
+                    print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+                    return true;
+                } else {
+                    print.ServerToOne("You must put your atout card\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+                    return false;
+                }
+            }
         }
-        return false;
+        card.who = ServerHandler.indexPlayer;
+        ServerHandler.table.add_card(card);
+        ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand.remove(card);
+        ServerHandler.turnNumber++;
+        if (ServerHandler.indexPlayer == 3)
+            ServerHandler.indexPlayer = 0;
+        else
+            ServerHandler.indexPlayer++;
+        print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
+        print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+        return true;
+    }
+    return false;
     }
 
     public void updatePower(List<Card> lcard, String atout) {
@@ -113,9 +114,9 @@ public class Rules {
         }
         ServerHandler.clientManager.resetWinFolds();
         print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(0).scoreTurn + " turn points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(1).scoreTurn + " turn points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(2).scoreTurn + " turn points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(3).scoreTurn + " turn points", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(1).id +  ": " + ServerHandler.clientManager.lclient.get(1).scoreTurn + " turn points", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(2).id +  ": " + ServerHandler.clientManager.lclient.get(2).scoreTurn + " turn points", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(3).id +  ": " + ServerHandler.clientManager.lclient.get(3).scoreTurn + " turn points", ServerHandler.clientManager);
     }
 
     public void countScoreParty()
@@ -141,9 +142,9 @@ public class Rules {
             clt.scoreTurn = 0;
         }
         print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(0).scoreParty + " party points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(1).scoreParty + " party points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(2).scoreParty + " party points", ServerHandler.clientManager);
-        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(3).scoreParty + " party points", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(1).id +  ": " + ServerHandler.clientManager.lclient.get(1).scoreParty + " party points", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(2).id +  ": " + ServerHandler.clientManager.lclient.get(2).scoreParty + " party points", ServerHandler.clientManager);
+        print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(3).id +  ": " + ServerHandler.clientManager.lclient.get(3).scoreParty + " party points", ServerHandler.clientManager);
     }
 
     public boolean checkWinParty()
@@ -169,10 +170,13 @@ public class Rules {
                 if (clt.team == ServerHandler.clientManager.lclient.get(i).team)
                     clt.winFolds = true;
             }
+            print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(i).id + "win the fold\n", ServerHandler.clientManager);
+            ServerHandler.indexPlayer = i;
             countScoreFolds(ServerHandler.table.table);
             ServerHandler.clientManager.resetStarter();
             ServerHandler.clientManager.lclient.get(i).starter = true;
             ServerHandler.turnNumber = 0;
+            ServerHandler.table.clean_table();
             return true;
         }
         else
@@ -185,12 +189,12 @@ public class Rules {
             for (Card card : ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand) {
                 if (card.number.equals(msg.split("\\s+")[1]) && card.suite.equals(msg.split("\\s+")[2]))
                     return card;
-                else
-                    print.ServerToAll("You don't have the card", ServerHandler.clientManager);
             }
+            print.ServerToOne("You don't have the card", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+
         }
             else
-                print.ServerToAll("Bad format of card\n", ServerHandler.clientManager);
+                print.ServerToOne("Bad format of card\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
         return null;
     }
 
@@ -227,13 +231,15 @@ public class Rules {
     }
     public boolean checkPutSameSuite()
     {
-        for (Card card: ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand)
-        {
-            if (card.suite.equals(ServerHandler.table.table.get(0).suite))
-            {
-                return true;
+        if (ServerHandler.table.table.size() != 0) {
+            for (Card card : ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand) {
+                if (card.suite.equals(ServerHandler.table.table.get(0).suite)) {
+                    return true;
+                }
             }
         }
+        else
+            return true;
         return false;
     }
 

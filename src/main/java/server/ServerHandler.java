@@ -87,6 +87,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             {
                 if (!rules.checkWinParty()) {
                     if (rules.checkPut(msg)) {
+                        print.PrintAtAll(msg, clientManager, ctx);
                         if (rules.checkFolds())
                             if (rules.checkEndTurn())
                                 rules.countScoreParty();
