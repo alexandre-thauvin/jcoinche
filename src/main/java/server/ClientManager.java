@@ -48,9 +48,7 @@ public class ClientManager {
     public void resetWinFolds()
     {
         for (Client clt: lclient)
-        {
             clt.winFolds = false;
-        }
     }
     public void add(Client client) {lclient.add(client);}
     public void remove(Client client) {lclient.remove(client);}

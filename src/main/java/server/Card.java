@@ -13,20 +13,19 @@ public class Card {
         {
             case 0:
                 this.suite = "spade";
-
                 break;
             case 1:
                 this.suite = "heart";
-                    break;
+                break;
             case 2:
                 this.suite = "diamond";
-                    break;
+                break;
             case 3:
                 this.suite = "club";
-                    break;
+                break;
             default:
                 this.suite = "";
-                    break;
+                break;
 
         }
         switch (number)
@@ -42,6 +41,7 @@ public class Card {
                 break;
             case 3:
                 this.number = "10";
+                break;
             case 4:
                 this.number = "jack";
                 break;

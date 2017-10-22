@@ -17,11 +17,11 @@ public class Print {
     public void ServerToAll(String msg, ClientManager clientManager)
     {
         for (Client clt: clientManager.lclient) {
-                clt.ctx.writeAndFlush("[SERVER]: " + msg + '\n');
+                clt.ctx.writeAndFlush("[SERVER]: " + msg);
         }
     }
     public void ServerToOne(String msg, Client clt)
     {
-        clt.ctx.writeAndFlush("[SERVER]: " + msg + '\n');
+        clt.ctx.writeAndFlush("[SERVER]: " + msg);
     }
 }

@@ -32,7 +32,6 @@ public class ClientManagerTest {
 
     @Test
     public void getClientByBegin() throws Exception {
-        //todo: change func
         EmbeddedChannel channel = new EmbeddedChannel(new StringDecoder(StandardCharsets.UTF_8));
         Client clt = new Client(0, true, channel);
         ClientManager clientManager = new ClientManager();

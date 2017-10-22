@@ -40,9 +40,10 @@ public class GameManager {
     }
     public void check_hand(Client clt)
     {
+        print.ServerToOne("YOUR HAND\n", clt);
         for (Card card: clt.hand)
         {
-            print.ServerToOne(card.number + " " +  card.suite, clt);
+            print.ServerToOne(card.number + " " +  card.suite + '\n', clt);
         }
     }
     public boolean check_bet(String number, String suite, ClientManager clientManager)
@@ -57,6 +58,15 @@ public class GameManager {
             }
             clientManager.lclient.get(ServerHandler.getBet() - 1).starter = true;
             clientManager.lclient.get(ServerHandler.getBet() - 1).contrat = true;
+            if (ServerHandler.bet - 1 == 0 || ServerHandler.bet - 1 == 2) {
+                clientManager.lclient.get(0).contrat = true;
+                clientManager.lclient.get(2).contrat = true;
+            }
+            else
+            {
+                clientManager.lclient.get(1).contrat = true;
+                clientManager.lclient.get(3).contrat = true;
+            }
             ServerHandler.bet++;
             if (ServerHandler.indexPlayer == 3)
                 ServerHandler.indexPlayer = 0;

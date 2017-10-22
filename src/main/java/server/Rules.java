@@ -20,7 +20,6 @@ public class Rules {
                         card.who = ServerHandler.indexPlayer;
                         ServerHandler.table.add_card(card);
                         ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand.remove(card);
-                        ServerHandler.turnNumber++;
                         if (ServerHandler.indexPlayer == 3)
                             ServerHandler.indexPlayer = 0;
                         else
@@ -38,7 +37,6 @@ public class Rules {
                     card.who = ServerHandler.indexPlayer;
                     ServerHandler.table.add_card(card);
                     ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand.remove(card);
-                    ServerHandler.turnNumber++;
                     ServerHandler.indexPlayer++;
                     if (ServerHandler.indexPlayer - 1 == 3)
                         ServerHandler.indexPlayer = 0;
@@ -54,13 +52,10 @@ public class Rules {
         card.who = ServerHandler.indexPlayer;
         ServerHandler.table.add_card(card);
         ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).hand.remove(card);
-        ServerHandler.turnNumber++;
         if (ServerHandler.indexPlayer == 3)
             ServerHandler.indexPlayer = 0;
         else
             ServerHandler.indexPlayer++;
-        print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
-        print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
         return true;
     }
     return false;
@@ -110,7 +105,7 @@ public class Rules {
         }
         for (Client clt : ServerHandler.clientManager.lclient) {
             if (clt.winFolds)
-                clt.scoreTurn = score;
+                clt.scoreTurn += score;
         }
         ServerHandler.clientManager.resetWinFolds();
         print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(0).id +  ": " + ServerHandler.clientManager.lclient.get(0).scoreTurn + " turn points", ServerHandler.clientManager);
@@ -170,12 +165,11 @@ public class Rules {
                 if (clt.team == ServerHandler.clientManager.lclient.get(i).team)
                     clt.winFolds = true;
             }
-            print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(i).id + "win the fold\n", ServerHandler.clientManager);
+            print.ServerToAll("Player " + ServerHandler.clientManager.lclient.get(i).id + " win the fold\n", ServerHandler.clientManager);
             ServerHandler.indexPlayer = i;
             countScoreFolds(ServerHandler.table.table);
             ServerHandler.clientManager.resetStarter();
             ServerHandler.clientManager.lclient.get(i).starter = true;
-            ServerHandler.turnNumber = 0;
             ServerHandler.table.clean_table();
             return true;
         }

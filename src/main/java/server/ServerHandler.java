@@ -22,15 +22,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     static int pass = 0;
     static int indexPlayer = 0;
     static Rules rules = new Rules();
-    static int turnNumber = 0;
 
     public static int getBet() {
         return bet;
-    }
-
-    public void changeIndexPlayer(int index)
-    {
-        indexPlayer = index;
     }
 
     @Override
@@ -89,8 +83,16 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                     if (rules.checkPut(msg)) {
                         print.PrintAtAll(msg, clientManager, ctx);
                         if (rules.checkFolds())
+                        {
                             if (rules.checkEndTurn())
                                 rules.countScoreParty();
+                        }
+                        else {
+                            print.ServerToAll("Player " + (ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer).id) + " must play\n", ServerHandler.clientManager);
+                            print.ServerToOne("Usage: put <value> <suite>\n", ServerHandler.clientManager.lclient.get(ServerHandler.indexPlayer));
+                            gameManager.check_hand(clientManager.lclient.get(indexPlayer));
+                        }
+
                     }
                 }
 
